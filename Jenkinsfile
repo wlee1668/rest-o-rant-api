@@ -15,11 +15,11 @@ node {
     }
 
     stage('Publish And Deploy') {
-          xldPublishPackage serverCredentials: 'admin/******', darPath: '$JOB_NAME-$BUILD_NUMBER.0.dar'
+          xldPublishPackage serverCredentials: 'xldeploy-credentials', darPath: '$JOB_NAME-$BUILD_NUMBER.0.dar'
           xldDeploy serverCredentials: 'Admin', environmentId: 'Environments/Dev', packageId: 'Applications/rest-o-rant-api/$BUILD_NUMBER.0'
     }
 
     stage('Start XLR Release') {
-       xlrCreateRelease serverCredentials: 'admin/******', template: 'Release rest-o-rant-api', version: 'Release for $BUILD_TAG', variables: [[propertyName: 'version', propertyValue: '$BUILD_NUMBER.0']], startRelease: true
+       xlrCreateRelease serverCredentials: 'xlrelease-credentials', template: 'Release rest-o-rant-api', version: 'Release for $BUILD_TAG', variables: [[propertyName: 'version', propertyValue: '$BUILD_NUMBER.0']], startRelease: true
     }
 }
